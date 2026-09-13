@@ -1,12 +1,10 @@
 # Single-Cycle RISC-V Processor
 
-A 32-bit single-cycle RISC-V processor implemented in Verilog.
+A 32-bit single-cycle RISC-V processor implemented in Verilog based on the RV32I instruction set architecture.
 
 ## Overview
 
-This project implements a basic single-cycle RISC-V processor based on the
-RV32I instruction set architecture. The processor includes the main datapath,
-control unit, ALU, register file, instruction memory, and data memory.
+This project implements a basic single-cycle RISC-V processor with a complete datapath and control path. The design includes the processor's ALU, register file, instruction memory, data memory, control unit, immediate generation, and program counter logic.
 
 ## Components
 
@@ -23,7 +21,7 @@ control unit, ALU, register file, instruction memory, and data memory.
 
 ## Supported Operations
 
-The processor is designed to execute RISC-V instructions including:
+The processor is designed to support RISC-V instructions including:
 
 - Arithmetic and logical operations
 - Immediate operations
@@ -33,13 +31,13 @@ The processor is designed to execute RISC-V instructions including:
 ## Tools Used
 
 - Verilog
-- Vivado
+- Xilinx Vivado
 
-## Simulation
 
-The processor will be simulated using a Verilog testbench in QuestaSim.
-Simulation waveforms will be used to observe the processor's operation and
-verify the implemented instructions.
+## Testbench
+
+A Verilog testbench (`single_cycle_top_tb.v`) is included for testing the processor design.
+
 
 ## Project Structure
 
