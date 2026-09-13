@@ -1,0 +1,62 @@
+module ALU(A, B, ALUControl, Result, Z, N, C, V);
+
+    // Inputs
+    input [31:0] A;
+    input [31:0] B;
+    input [2:0] ALUControl;
+
+    // Outputs
+    output [31:0] Result;
+    output Z, N, C, V;
+
+    // Wires
+    wire [31:0] a_and_b;
+    wire [31:0] a_or_b;
+    wire [31:0] not_b;
+    wire [31:0] mux_1;
+    wire [31:0] sum;
+    wire [31:0] mux_2;
+
+    // Flags
+    wire Carry_out;
+    wire set_less_than;
+
+    // Logic operations
+    assign a_and_b = A & B;
+    assign a_or_b = A | B;
+    assign not_b = ~B;
+
+    // Select B for addition, ~B for subtraction
+    assign mux_1 = (ALUControl[0] == 1'b0) ? B : not_b;
+
+    // Addition / subtraction
+    assign {Carry_out, sum} = A + mux_1 + ALUControl[0];
+
+    // ALU operation selection
+    assign mux_2 = (ALUControl == 3'b000) ? sum :
+                   (ALUControl == 3'b001) ? sum :
+                   (ALUControl == 3'b010) ? a_and_b :
+                   (ALUControl == 3'b011) ? a_or_b :
+                   (ALUControl == 3'b101) ? set_less_than :
+                   32'h00000000;
+
+    // Result
+    assign Result = mux_2;
+
+    // Zero flag
+    assign Z = (Result == 32'b0);
+
+    // Negative flag
+    assign N = Result[31];
+
+    // Carry flag
+    assign C = Carry_out & (~ALUControl[1]);
+
+    // Overflow flag
+    assign V = (~ALUControl[1] & (A[31] ^ sum[31])) &
+               (~(A[31] ^ B[31] ^ ALUControl[0]));
+
+    // Set less than
+    assign set_less_than = {31'b0, sum[31]};
+
+endmodule
