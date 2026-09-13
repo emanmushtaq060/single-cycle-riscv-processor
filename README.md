@@ -33,7 +33,6 @@ The processor is designed to execute RISC-V instructions including:
 ## Tools Used
 
 - Verilog
-- QuestaSim
 - Vivado
 
 ## Simulation
